@@ -1,0 +1,14 @@
+ms/publish: ms/package ms/login
+    vsce publish
+    rm -fr bake-*.vsix
+
+ms/login: install/system
+    set +e
+    vsce login kennethreitz
+
+ms/package: install/system
+    cp ../../README.md README.md
+    vsce package
+
+install/system:
+    npm install -g yo generator-code vsce

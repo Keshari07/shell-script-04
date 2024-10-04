@@ -1,0 +1,14 @@
+{
+  "name": "Caporal",
+  "excludePrivate": true,
+  "excludeExternals": true,
+  "excludeInternal": true,
+  "includeVersion": true,
+  "disableSources": false,
+  "hideGenerator": true,
+  "cleanOutputDir": false,
+  "readme": "docs/api.readme.md",
+  "exclude": ["**/*.spec.ts", "**/__fixtures__/*.ts"],
+  "externalPattern": ["**/node_modules/**", "**/examples/**/*.ts"],
+  "out": "docs/api"
+}

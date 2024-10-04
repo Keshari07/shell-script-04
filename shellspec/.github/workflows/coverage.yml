@@ -1,0 +1,40 @@
+name: Coverage
+
+on: [push]
+
+env:
+  FORCE_COLOR: 1
+
+jobs:
+  ubuntu-jammy:
+    runs-on: ubuntu-22.04
+    if: >-
+      github.ref == 'refs/heads/master' &&
+      !contains(github.event.head_commit.message, 'ci skip')
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update
+      - name: Install packages
+        run: sudo apt-get install -y bash kcov
+      - name: Install cc-test-reporter
+        env:
+          CC_TEST_REPORTER_URL: https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64
+        run: |
+          curl -sSL "$CC_TEST_REPORTER_URL" > ./cc-test-reporter
+          chmod +x ./cc-test-reporter
+          ./cc-test-reporter before-build
+      - name: Run shellspec with coverage
+        run: |
+          sudo ./shellspec --task fixture:stat:prepare
+          ./shellspec --shell bash --kcov
+      - name: Upload coverage (Codecov)
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        run: |
+          bash <(curl -s https://codecov.io/bash) -s coverage
+      - name: Upload coverage (Code Climate)
+        env:
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+        run: |
+          ./cc-test-reporter format-coverage coverage/cobertura.xml -t cobertura
+          ./cc-test-reporter upload-coverage

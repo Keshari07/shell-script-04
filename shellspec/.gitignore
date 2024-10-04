@@ -1,0 +1,8 @@
+.env
+.shellspec-local
+.shellspec-quick.log
+/*.tar.gz
+report
+coverage-*
+coverage
+ttyrecord

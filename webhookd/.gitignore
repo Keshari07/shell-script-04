@@ -1,0 +1,6 @@
+release/
+.vscode/
+.htpasswd
+*.pem
+*.key
+CHANGELOG.md

@@ -1,0 +1,8 @@
+.vscode/settings.json
+bake.egg-info/*
+**/__pycache__/**
+.DS_Store
+.eggs
+build
+bake_cli.egg-info/*
+dist

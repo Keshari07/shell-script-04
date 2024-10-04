@@ -1,0 +1,36 @@
+version: "3.4"
+
+services:
+  core:
+    image: kennethreitz/bake:core
+    build:
+      context: .
+      dockerfile: ./docker/core.Dockerfile
+
+  bake:
+    image: kennethreitz/bake:${DOCKER_RELEASE:-latest}
+    build:
+      context: .
+      dockerfile: ./docker/bake.Dockerfile
+    depends_on:
+      - core
+    volumes:
+      - .:/app
+
+  red:
+    image: kennethreitz/red:${DOCKER_RELEASE:-latest}
+    build:
+      context: .
+      dockerfile: ./docker/red.Dockerfile
+    depends_on:
+      - core
+
+  ci:
+    image: kennethreitz/bake:ci
+    build:
+      context: .
+      dockerfile: ./docker/ci.Dockerfile
+    depends_on:
+      - core
+    volumes:
+      - .:/app
